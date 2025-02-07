@@ -1,8 +1,9 @@
 // Import necessary packages
 import 'package:flutter/material.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
+import 'package:ishop/features/home/presentation/pages/home.dart';
 
-import '../resources/BottomNaivgation.dart';
+import 'BottomNaivgation.dart';
 
 
 class DrawerWidget extends StatefulWidget {

@@ -13,13 +13,11 @@ import 'package:http/http.dart' as http;
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
-import '../../../../../core/constants/constants.dart';
+import '../../../../core/constants/constants.dart';
 import '../models/products.dart';
 
 
-
-part 'productApiService.g.dart';
-
+part "productApiService.g.dart";
 @RestApi(baseUrl: BASEURL)
 
  abstract class ProductApiService {
@@ -38,8 +36,7 @@ part 'productApiService.g.dart';
 // @Query("country") String? country,
 // /users
  @GET("/products/categories")
- Future<HttpResponse<List<ProductModel>>> getproducts_category(
-     @Query("category") String? category);
+ Future<HttpResponse<List<ProductModel>>> getproducts_category();
 // @Query("country") String? country,
 
 

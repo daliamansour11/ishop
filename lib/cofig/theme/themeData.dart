@@ -8,7 +8,13 @@ import '../../core/resources/font_manger.dart';
 
 ThemeData appTheme() {
   return ThemeData(
-    scaffoldBackgroundColor: ColorsManger.white,
+
+  colorScheme: ColorScheme.fromSeed(seedColor: ColorsManger.lightPrimary)
+  ,
+  scaffoldBackgroundColor: ColorsManger.white,
+
+
+
     fontFamily: "Rubik",
       // primaryColor: ColorsManger.lightPrimary,
       // splashColor: ColorsManger.white,
@@ -28,10 +34,13 @@ AppBarTheme appBarTheme(){
   return const AppBarTheme(
       // color: ColorsManger.white
       // ,
+    backgroundColor: ColorsManger.lightPrimary,
+      foregroundColor: ColorsManger.semiGreen,
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: ColorsManger.cMainColor1),
       titleTextStyle: TextStyle(color: ColorsManger.dark,fontSize: FontSize.s28)
+
   );
 
 }

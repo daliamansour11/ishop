@@ -46,21 +46,28 @@ dependencies:
 #  path:
   retrofit:
   intl:
-  flutter_bloc:
+
   flutter_hooks:
-  build_runner:
   flutter_image_slideshow:
   curved_navigation_bar: ^1.0.6
   flutter_zoom_drawer:
   flutter_localization: 0.2.2
+  pretty_dio_logger: ^1.4.0
 
 
-  retrofit_generator:
   cached_network_image:
+  flutter_native_splash: ^2.4.1
+  go_router: ^14.6.1
+  flutter_bloc: ^8.1.1
+  formz: ^0.6.0
+  shared_preferences: ^2.3.2
+  build_runner:
+  retrofit_generator:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -68,6 +75,10 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
+  build_runner:
+  json_serializable: ^6.6.1
+  analyzer: ^5.13.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -83,6 +94,7 @@ flutter:
 
 
     - assets/images/onboarding_img.jpg
+    - assets/images/logo.png
 
 
   fonts:

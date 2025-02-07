@@ -1,15 +1,21 @@
 
+import '../../data/model/login_requestBody.dart';
+
 abstract class LoginEvent {
   const LoginEvent();
+    login(LoginRequestBody());
 }
 
 class LoginUserEvent extends LoginEvent{
-  final String? name;
-  final String? password;
 
-  const LoginUserEvent( {
-    this.name,
-    this.password,
 
-  });
+
+  const LoginUserEvent(LoginRequestBody loginRequestBody);
+
+  @override
+  login(LoginRequestBody()) {
+
+  }
+
+
 }

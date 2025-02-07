@@ -10,18 +10,18 @@ import 'package:ishop/features/category/domain/entity/categor_entity.dart';
 
 abstract class CategoryState extends Equatable{
 
-  final CategoryEntity? products;
+  final List<CategoryEntity>? products;
   final DioException ? error;
 
   const CategoryState({this.products, this.error});
   @override
-  List<Object?> get props =>[products,error];
+  List<Object?> get props =>[[products],error];
 }
 class RemoteCategoryLoading extends CategoryState {
   const RemoteCategoryLoading();
 }
 class RemoteCategoryDone extends CategoryState{
-  const RemoteCategoryDone(CategoryEntity product):super(products:product);
+  const RemoteCategoryDone(List<CategoryEntity> product):super(products:product);
 
 
 }

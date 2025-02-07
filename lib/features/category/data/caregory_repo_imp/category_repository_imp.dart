@@ -12,14 +12,13 @@ import '../../domain/category_reposotry_interface/CategoryBaseRepo.dart';
 
 class CategoryRepositoryImp extends CategoryBaseRepo{
   final ProductApiService productApiService;
-final String CATEGORY;
-  CategoryRepositoryImp(this.productApiService,this.CATEGORY);
+
+  CategoryRepositoryImp(this.productApiService,);
 
   @override
   Future<DataState<CategoryEntity>> getProductsCategory() async{
       try {
-        final httpResponse = await productApiService.getproducts_category( CATEGORY
-        );
+        final httpResponse = await productApiService.getproducts_category();
 
         // Check if the status code is OK (200)
         if (httpResponse.response.statusCode == HttpStatus.ok) {

@@ -264,51 +264,5 @@ class SlideShowImage extends StatelessWidget {
     );
   }
 }
-class SearchBarWidget extends StatelessWidget {
-  const SearchBarWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return
-       Padding(
-        padding: const EdgeInsets.only(left: 3.0, right: 3.0),
-        child: Container(
-          height: 45,
-          margin: EdgeInsets.only(top: 2),
-          width: MediaQuery
-              .of(context)
-              .size
-              .width,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(.2),
-                  blurRadius: 2,
-                  spreadRadius: 1,
-                  offset: Offset(0, 0.50))
-            ],
-          ),
-          child: TextField(
-            onChanged: (value) {},
-            decoration: InputDecoration(
-                hintText: 'search here..',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                suffixIcon: InkWell(
-                    onTap: () {
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => SearchUser()));
-                    },
-                    child: Icon(Icons.search))),
-          ),
-        ),
-      );
-    }
-}
 
 

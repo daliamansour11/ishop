@@ -1,4 +1,6 @@
- import 'package:flutter/cupertino.dart';
+ import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/widgets.dart';
@@ -7,8 +9,10 @@ import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:ishop/cofig/theme/themeData.dart';
 import 'package:ishop/core/resources/strings_manger.dart';
 import 'package:ishop/core/resources/values_manger.dart';
+import '../../../../core/extensions/extentions.dart';
 import '../../../../core/resources/colors_manger.dart';
 import '../../../../core/util/drawerWidget.dart';
+import '../../domain/entities/products_entity.dart';
 import '../bloc/products_bloc.dart';
 import '../bloc/products_state.dart';
 import '../widgets/HomeWidgets.dart';
@@ -22,16 +26,23 @@ class HomePage extends StatefulWidget {
  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
  final  searchController= TextEditingController();
   bool _isSearching =false;
+
+  late List<ProductsEntity> searchedProducts;
+ late List< ProductsEntity> products;
 class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _biludAppBar(context),
-      body:  Expanded(
+      drawer: const DrawerWidget(),
+      body:  SingleChildScrollView(
         child: Column(
           children: [
-            _buildscesrchedField(context),
+        SizedBox(
+
+          child: _buildSearchedField(context),
+            ),
 
             // SearchScreen(),
            const SlideShowImage(),
@@ -57,13 +68,12 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      endDrawer: DrawerWidget(),
+
 
     );
   }
 
   _biludAppBar(BuildContext context){
-    var _isSearch =false;
     return AppBar(
       elevation: 0.0,
       automaticallyImplyLeading: false,
@@ -113,13 +123,6 @@ class _HomePageState extends State<HomePage> {
 
       actions: [
 
-        // IconButton(
-        //   onPressed: () async {
-        //   Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchScreen()));
-        //   },
-        //   icon:
-        // const  Icon(Icons.search, color: Colors.black),
-        // ),
 
         IconButton(
           onPressed: () async {
@@ -141,80 +144,87 @@ class _HomePageState extends State<HomePage> {
   }
 
   _buildBody(BuildContext context){
-    return BlocBuilder<ProductsBloc,ProductsState>(
-      builder:(_,state) {
+    return BlocBuilder<ProductsBloc, ProductsState>(
+      builder: (_, state) {
         if (state is RemoteProductsLoading) {
-          return const Center(child: CupertinoActivityIndicator(),);
-        }   if (state is RemoteProductsError) {
-          return const Center(child: Icon(Icons.refresh),);
+          return const Center(child: CupertinoActivityIndicator());
+        }
+        if (state is RemoteProductsError) {
+          return const Center(child: Icon(Icons.refresh));
         }
         if (state is RemoteProductsDone) {
-          return Container(
-            height: MediaQuery
-                .of(  context)
-                .size
-                .height /2.68444477
-            ,
-            child: GridView.builder(
-                // physics:const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16.0,
-                  mainAxisSpacing: 16.0,
-                  childAspectRatio: 0.7,
+          products = state.products!; // تحديث قائمة المنتجات
+          return Column(
+            children: [
+              Container(
+          height: MediaQuery
+                        .of(  context)
+                        .size
+                        .height /2.68444477
+                    ,
+                child: GridView.builder(
+                  shrinkWrap: true,
+                                gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 16.0,
+                                  mainAxisSpacing: 16.0,
+                                  childAspectRatio: 0.7,
+                                ),
+                  itemCount: products.length ,
+                  itemBuilder: (context, index) {
+                    return HomeWidgets(products: products[index]);
+                  },
                 ),
-                itemCount: state.products!.length, // Number of products
-                itemBuilder: (context, index) {
-                  return HomeWidgets(products: state.products![index],);
-                }
-            ),
+              ),
+            ],
           );
         }
         return const SizedBox();
-      },);
+      },
+    );
+
+
     }
 
-  _buildscesrchedField(BuildContext context){
-   return   TextFormField(
-     style: Theme.of(context).textTheme.titleSmall,
-     controller: searchController,
-     obscureText: false,
-     onChanged: (value) {
-       addSearchedItemToSearchedList(value);
+  _buildSearchedField(BuildContext context){
+   return   Padding(
+     padding: const EdgeInsets.all(6.0),
 
-       setState(() {
-         value = searchController.text;
-         // searchlist=  data.data.where((element) => element.name == "sam").toList();
-       });
-     },
-     keyboardType: TextInputType.text,
-     decoration:const InputDecoration(
+       child: Container(
 
-       focusedBorder: OutlineInputBorder(
-         borderSide: BorderSide(
-           color: ColorsManger.primary,
-           width: 1,
+         decoration: BoxDecoration(
+           color: ColorsManger.white,
+           borderRadius: BorderRadius.circular(12.0),
+           boxShadow:const  [
+                BoxShadow(
+               color: Colors.grey,
+               blurRadius: 4,
+               offset: Offset(0, 2),
+             ),
+           ],
          ),
-         borderRadius: BorderRadius.all(Radius.circular(10)),
-       ),
-       hintText: "Search here...",
-       contentPadding:
-       EdgeInsets.symmetric(vertical: 7, horizontal: 5),
+         child:  TextField(
+           controller: searchController,
+           decoration:  InputDecoration(
+             hintText: "Search...",
+             border: InputBorder.none,
+             contentPadding: EdgeInsets.symmetric(horizontal: 12.0),
 
-       suffixIcon: InkWell(child:
+             suffixIcon:  _isSearching?
+         IconButton(onPressed: () {
+         _clearSearch();
+         Navigator.pop(context);
+         }, icon: const Icon(Icons.clear, color: ColorsManger.primary,))
+                      :
+         IconButton(onPressed: () {
+            context.pushNamed(SearchPage());
+         }, icon: const Icon(Icons.search, color: ColorsManger.grey,))
+           ),
 
-       Icon(Icons.search)),
-       //prefix iocn
-       hintStyle: TextStyle(
-           fontSize: 16,
-           fontWeight: FontWeight.w500,
-           color: ColorsManger.primary),
-       //hint text style
-       labelStyle: TextStyle(
-           fontSize: 10, color: Colors.redAccent), //label style
-     ),
-   );
+                      ),
+                  ),
+     );
+
   }
   List<Widget> buildAppActions() {
     if (_isSearching) {
@@ -233,17 +243,52 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
- void addSearchedItemToSearchedList(String searchedProduct) {
-   searchedForProduct = products.where((product1) =>
-       product1.title!.toLowerCase().startsWith(searchedProduct)).toList();
-   //
-   // setState(() {
-   //
-   // });
+  // void addSearchedItemToSearchedList(String searchedProduct) {
+  //   searchedForProduct = products;
+  //
+  //
+  //   setState(() {
+  //     _debouncer.run(() {
+  //       if (searchedProduct.isEmpty) {
+  //         print("Search input is empty");
+  //         return;
+  //       }
+  //
+  //       if (searchedProduct.length < 2) {
+  //         print("Please enter at least 2 characters");
+  //         return;
+  //       }
+  //
+  //       // تنفيذ عملية البحث هنا
+  //       searchedForProduct = products
+  //           .where((product) =>
+  //       product.title != null &&
+  //           product.title!.toLowerCase().startsWith(searchedProduct.toLowerCase())).toList();
+  //
+  //       print("Searching for: $searchedProduct");
+  //
+  //       if (searchedForProduct.isEmpty) {
+  //         print("No matching products found for: $searchedProduct");
+  //       }
+  //     });
+  //
+  //     // searchedForProduct = products
+  //     //     .where((product) =>
+  //     // product.title != null &&
+  //     //     product.title!.toLowerCase().startsWith(searchedProduct.toLowerCase())).toList();
+  //
+  //
+  //   });
+  // }
 
- }
+  final _debouncer = _Debouncer(milliseconds: 500);
 
-
+  void _onSearchChanged(String query) {
+    _debouncer.run(() {
+      // تنفيذ عملية البحث هنا
+      print("Searching for: $query");
+    });
+  }
  void _startSearch() {
    ModalRoute.of(context)!.addLocalHistoryEntry(
        LocalHistoryEntry(onRemove: _stopSearching));
@@ -252,7 +297,7 @@ class _HomePageState extends State<HomePage> {
    });
  }
 
- void _stopSearching() {
+  _stopSearching() {
    _clearSearch();
    setState(() {
      _isSearching=false;
@@ -260,12 +305,22 @@ class _HomePageState extends State<HomePage> {
  }
  void _clearSearch(){
    searchController.clear();
+ }}
+
+
+
+
+ class _Debouncer {
+   final int milliseconds;
+   VoidCallback? action;
+   Timer? _timer;
+
+   _Debouncer({required this.milliseconds});
+
+   void run(VoidCallback action) {
+     if (_timer != null) {
+       _timer!.cancel();
+     }
+     _timer = Timer(Duration(milliseconds: milliseconds), action);
+   }
  }
-
-
- }
-
-
-
-
-

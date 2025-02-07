@@ -40,4 +40,4 @@ class CustomClipperExample extends CustomClipper<Path> {
   bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
     return false; // Return true if the clipper needs to reclip
   }
-}
+}  

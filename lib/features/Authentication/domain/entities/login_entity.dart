@@ -8,6 +8,5 @@ class LoginEntity extends   Equatable{
   LoginEntity({this.token});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [token];
 }

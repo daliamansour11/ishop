@@ -37,13 +37,79 @@ class DetailsWidget extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
           ),
-          subtitle:  Text(
-            '★ ${products!.rating!.count} | ${products!.rating!.rate} ',
-            style:const TextStyle(
-                fontSize: 18,
-                color: Colors.red,
-                fontWeight: FontWeight.w700),
-          ),
+          subtitle:  Column(
+            children: [
+              Text(
+                '★ ${products!.rating!.count} | ${products!.rating!.rate} ',
+                style:const TextStyle(
+                    fontSize: 18,
+                    color: Colors.red,
+                    fontWeight: FontWeight.w700),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                const  Text(
+                    'Size :',
+                    style:const TextStyle(
+                        fontSize: 18,
+                        color: Colors.red,
+                        fontWeight: FontWeight.w700),
+                  ),
+                     Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+
+                                color:Colors.grey,
+
+                                child:const Text("S",
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.w700
+                                  ),
+                                )),
+
+                        
+
+                        SizedBox(width: 7,),
+                        Container(
+                            child:const Text("S",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700
+                              ),
+                            )),
+                        SizedBox(width: 7,),
+                        Container(
+                            child:const Text("S",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700
+                              ),
+                            )),
+
+                        SizedBox(width: 7,),
+                        Container(
+                            child:const Text("S",
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.w700
+                              ),
+                            ))
+                      ],
+                    ),
+                  ),
+
+                ],
+              )
+            ],
+          )
         ),
         const SizedBox(height: 10),
         Padding(

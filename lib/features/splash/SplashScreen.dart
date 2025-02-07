@@ -1,33 +1,54 @@
 import 'package:flutter/material.dart';
-import 'package:ishop/core/resources/BottomNaivgation.dart';
+import 'package:ishop/core/extensions/extentions.dart';
+import 'package:ishop/core/util/BottomNaivgation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import'package:flutter/animation.dart';
 import '../../core/constants/constants.dart';
+import '../../core/resources/assets_manger.dart';
 import '../../main.dart';
+import '../Authentication/presentation/pages/login/screens/LoginScreen.dart';
 import '../Authentication/presentation/pages/signUp/SignUpScreen.dart';
 
 
 
-class Splashscreen extends StatefulWidget{
+class SplashScreen extends StatefulWidget{
   @override
-  State<Splashscreen> createState() => _SplashscreenState();
+  State<SplashScreen> createState() => _SplashscreenState();
 }
 
-class _SplashscreenState extends State<Splashscreen> {
+class _SplashscreenState extends State<SplashScreen>  with SingleTickerProviderStateMixin {
 
   bool _isAnimate= false;
+  late Animation<double> animation;
+  late AnimationController controller;
+
   @override
   void initState() {
-    Future.delayed
-      (Duration(milliseconds: 40),() async {
+    // Future.delayed
+    //   (Duration(milliseconds: 40),() async {
       checkLogedIn( context);
-    });
+    // });
     super.initState();
-    Future.delayed(Duration(milliseconds: 500),(){
+    controller=AnimationController(vsync: this,duration: Duration(milliseconds: 4000));
+    animation=Tween(begin: 100.0,end: 800.0).animate(controller);
+    animation.addListener((){
       setState(() {
-        _isAnimate=true;
+
       });
     });
+    controller.forward();
+    // Future.delayed(Duration(milliseconds: 500),(){
+    //   setState(() {
+    //     _isAnimate=true;
+    //   });
+    // });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+
   }
 
   @override
@@ -35,15 +56,9 @@ class _SplashscreenState extends State<Splashscreen> {
     mq=MediaQuery.of(context).size;
     return Scaffold(
       // appBar: AppBar(title: Text('Welcome to You Chat'),),
-      body:  Stack(children: [
-        AnimatedPositioned(
-            top: mq.height * .23,
-            right:_isAnimate? mq.width * .25: -mq.width * .5,
-            width: mq.width * .5,
-            duration: Duration(milliseconds:1300 ),
-            child: Image.asset('')),
+      body:  Stack(children: [Image.asset(ImageAssets.splashLogo,height: animation.value,width: animation.value,),
         Positioned(
-          bottom: mq.height * .35,
+          bottom: mq.height * .29,
           width: mq.width,
           child: Text('Welcome to Ishop ❤️',textAlign: TextAlign.center,
               style: TextStyle(fontSize: 30))),
@@ -55,7 +70,7 @@ class _SplashscreenState extends State<Splashscreen> {
   }
   Future checkLogedIn( BuildContext context) async {
     await Future.delayed
-      (Duration(seconds: 3), () async {
+      (Duration(seconds: 6), () async {
       SharedPreferences shared = await SharedPreferences.getInstance();
       final String? usertoken = shared.getString(
           '${userTokenKey}');
@@ -65,11 +80,11 @@ class _SplashscreenState extends State<Splashscreen> {
             "shhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh    ${usertoken}");
 
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => BottomNavigation()));
+            context, MaterialPageRoute(builder: (_) =>const BottomNavigation()));
       }
       else {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (_) => Signupscreen()));
+
+       context.pushNamed(const LoginScreen());
       }
     });
   }

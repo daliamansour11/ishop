@@ -94,11 +94,9 @@ class _ProductApiService implements ProductApiService {
   }
 
   @override
-  Future<HttpResponse<List<ProductModel>>> getproducts_category(
-      String? category) async {
+  Future<HttpResponse<List<ProductModel>>> getproducts_category() async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'category': category};
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<List<ProductModel>>>(Options(

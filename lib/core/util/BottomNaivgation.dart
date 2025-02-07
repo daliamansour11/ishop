@@ -19,12 +19,11 @@ class BottomNavigation extends StatefulWidget  {
   State<BottomNavigation> createState() => _BottomNavigationState();
 }
 class _BottomNavigationState extends State<BottomNavigation> {
-  String? tittle;
   int _curvedIndex = 0;
-  List<Widget>bottomNavScreen = <Widget>[
-  const  HomePage(),
-       // CategoryScreen(),
-  ];
+  // List<Widget>bottomNavScreen = <Widget>[
+  // const  HomePage(),
+  //      CategoryScreen(),
+  // ];
   void _changeItem(int value) {
     print(value);
     setState(() {
@@ -44,7 +43,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
           Icon(Icons.category,size: 25,color: ColorsManger.darkPrimary),
           Icon(Icons.shopping_cart,size: 25,color:ColorsManger.darkPrimary,),
           Icon(Icons.favorite_border,size: 25,color:ColorsManger.darkPrimary),
-          // Icon(Icons.person_pin,size: 38,color: ColorsManger.darkPrimary,),
+          Icon(Icons.person_pin,size: 38,color: ColorsManger.darkPrimary,),
         ],
         onTap: _changeItem,
         index: _curvedIndex,),
@@ -56,11 +55,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
       IndexedStack(
         index: _curvedIndex,
         children: [
-         const HomePage(),
-            // CategoryScreen(),
-          const Cartscreen(),
-         const FavouriteScreen(),
-          const ProfileView()
+          HomePage(),
+          CategoriesPage(),
+           Cartscreen(),
+          FavouriteScreen(),
+          ProfilePage()
 
         ],
       ),

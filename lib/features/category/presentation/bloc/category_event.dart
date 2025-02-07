@@ -1,17 +1,19 @@
 
 
 
+import '../../domain/entity/categor_entity.dart';
+
 abstract class CategoriesEvent {
-  CategoryClick(String category);
+  CategoryClick( );
   const CategoriesEvent();
 }
 
 class GetCategoriesEvent extends CategoriesEvent{
-  final String? categoryName;
+  final List<CategoryEntity>? categoryName;
   const GetCategoriesEvent( { this.categoryName});
 
   @override
-  CategoryClick(String category) {
+  CategoryClick() {
   }
 }
 // enum CategoryEvent{

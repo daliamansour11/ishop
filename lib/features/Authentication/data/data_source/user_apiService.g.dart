@@ -14,7 +14,7 @@ class _UserApiService implements UserApiService {
     this.baseUrl,
     this.errorLogger,
   }) {
-    baseUrl ??= 'https://fakestoreapi.com';
+    baseUrl ??= 'https://vcare.integration25.com/api';
   }
 
   final Dio _dio;
@@ -24,16 +24,10 @@ class _UserApiService implements UserApiService {
   final ParseErrorLogger? errorLogger;
 
   @override
-  Future<HttpResponse<LoginResponseModel>> user_login({
-    String? username,
-    String? password,
-  }) async {
+  Future<HttpResponse<LoginResponseModel>> user_login(
+      LoginRequestBody loginRequestBody) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'username': username,
-      r'password': password,
-    };
-    queryParameters.removeWhere((k, v) => v == null);
+    final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     const Map<String, dynamic>? _data = null;
     final _options = _setStreamType<HttpResponse<LoginResponseModel>>(Options(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ishop/core/resources/strings_manger.dart';
 import 'package:ishop/core/resources/values_manger.dart';
 
-import '../../../../core/resources/BottomNaivgation.dart';
+import '../../../../core/util/BottomNaivgation.dart';
 import '../../../../core/resources/colors_manger.dart';
 
 
